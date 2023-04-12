@@ -1,58 +1,129 @@
+import java.awt.*;
 import java.util.Scanner;
+
+ class ACCOUNT
+{
+    String name;
+    String accnum;
+    String type;
+    int balance;
+    Scanner sc=new Scanner(System.in);
+
+
+    ACCOUNT()
+    {
+        System.out.println("ENTER THE NAME ");
+        name=sc.nextLine();
+        System.out.println("ENTER ACCOUNT NUMBER");
+        accnum=sc.nextLine();
+        System.out.println("ENTER THE ACCOUNT TYPE");
+        type=sc.nextLine();
+        System.out.println("ENTER THE AMOUNT TO DEPOSITED\n");
+        balance=sc.nextInt();
+    }
+
+     void display()
+     {
+         System.out.println("THE NAME IS"+name);
+         System.out.println("THE ACCOUNT NUMBER IS"+accnum);
+         System.out.println("THE ACCOUNT TYPE IS "+type);
+         System.out.println("THE BALANCE IS "+balance);
+     }
+
+     void deposit()
+     {
+         System.out.println("ENTER THE AMOUNT TO BE DEPOSITED");
+         int balance= sc.nextInt();
+         this.balance=this.balance+balance;
+     }
+     void withdraw()
+     {
+         System.out.println("ENTER THE AMOUNT TO BE WITHDRAW");
+         int balance =sc.nextInt();
+         if(balance>this.balance)
+         {
+             System.out.println("SORRY YOUR BALANCE IS LESS THAN WITHDRAW AMOUNT");
+
+         }
+         else
+         {
+             this.balance=this.balance-balance;
+             System.out.println("THE AMOUNT WITHDRAW IS "+balance+"THE BALANCE AMOUNT IS "+this.balance);
+         }
+
+     }
+
+
+
+
+
+}
 
 public class Main {
     public static void main(String[] args) {
 
-        Scanner sc=new Scanner(System.in);
-        System.out.println("WELCOME TO VOTE MACHINE\n");
-        System.out.println("ENTER NUMBER OF CANDIDATES");
-        int n=sc.nextInt();
-        int [] can=new int[n];
-        for(int i=0;i<n;i++)
-            can[i]=0;
-        int spoil=0;
-        for(;;) {
-            System.out.println("ENTER THE CHOICE\n 1.TOVOTE\n2.TOCOUNT\n3.TOTERMINATE");
-            int ch= sc.nextInt();
-            switch (ch)
-            {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("WEL COME TO BANK PROGRAM\n ENTER THE NUMBER OF CUSTO" +
+                "MERS\n");
+        int n = sc.nextInt();
+        ACCOUNT[] a = new ACCOUNT[n];
+        for (int i = 0; i < n; i++) {
+            System.out.println("ENTER THE DETAILS");
+            a[i] = new ACCOUNT();
+        }
+        int k = 0;
+        for (; ; ) {
+            System.out.println("ENTER THE CHOICE \n1DISPALY\n2DEPOSIT\n3WITHDRAW\n" + "0TOEXIT");
+            int ch = sc.nextInt();
+            switch (ch) {
                 case 1:
-                    for(;;) {
-                        System.out.println("ENTER THE CHOICE TO VOTE");
-                        for (int i = 1; i <= n; i++)
-                            System.out.println(i +" FORCANDIDATE " + i);
-                        int v = sc.nextInt();
-                        for (int i = 0; i < n; i++) {
-                            if (v-1 == i) {
-                                can[i] = can[i] + 1;
-                                break;
-                            }
-                        }
-                        if (v < 1 || v > n)
-                            spoil = spoil + 1;
-                        System.out.println("ENTER 999 TO STOP VOTING");
-                        int s= sc.nextInt();
-                        if(s==999)
-                            break;
+                    k = search(a, n);
+                    if (k != -1) {
+                        a[k].display();
                     }
                     break;
-
                 case 2:
-                    System.out.println("THE RESULT IS ");
-                    for(int i=0;i<n;i++)
-                        System.out.println("THE CANDIDATE "+(i+1)+" GOT "+can[i]+" VOTES");
-
-                    System.out.println("THE NUMBER OF SPOILT VOTES ARE "+spoil);
-                        break;
+                    k = search(a, n);
+                    if(k!=-1)
+                    {
+                        a[k].deposit();
+                    }
+                    break;
                 case 3:
-                    System.out.println("THE MACHINE IS OFF THANK YOU");
+                    k=search(a,n);
+                    if(k!=-1)
+                    {
+                        a[k].withdraw();
+                    }
+                default:
+                    System.out.println("THE PROGRAM TERMINATED");
                     System.exit(0);
 
-                    default:
-                    System.out.println("ENTER THE CORRECT CHOICE\n");
-                    break;
+
+
             }
+
+
         }
 
     }
+
+        static int  search(ACCOUNT[] s,int n1)
+        {
+            Scanner sc=new Scanner(System.in);
+            int i;
+            System.out.println("ENTER THE ACCOUNT NUMBER");
+            String a=sc.nextLine();
+            for(i=0;i<n1;i++) {
+                if (s[i].accnum.equals(a)) {
+                    s[i]. display();
+                    return i;
+                }
+
+            }
+
+            System.out.println("THE ACCOUNT NOT FOUND\n");
+            return -1;
+        }
+
 }
