@@ -1,79 +1,58 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
-class Temperature
-{
-   String city;
-   float [] temp;
-   Scanner sc =new Scanner(System.in);
-   float max,min;
-
-   void read()
-   {
-       System.out.println("ENTER THE CITY NAME\n");
-       city=sc.nextLine();
-       System.out.println("ENTER THE TEMPERATURE OF THE CITIES\n");
-       temp=new float[6];
-
-
-       for(int i=0;i<6;i++)
-           temp[i]=sc.nextFloat();
-   }
-
-   void calculate()
-   {
-       int i;
-       max=temp[0];
-       min=temp[0];
-       for(i=1;i<6;i++)
-       {
-          if(max<temp[i])
-              max=temp[i];
-          if(min>temp[i])
-              min=temp[i];
-       }
-
-
-   }
-
-
-
-}
 public class Main {
     public static void main(String[] args) {
 
-        float []maxt= new float[5];
-        float []mint= new float[5];
+        Scanner sc=new Scanner(System.in);
+        System.out.println("WELCOME TO VOTE MACHINE\n");
+        System.out.println("ENTER NUMBER OF CANDIDATES");
+        int n=sc.nextInt();
+        int [] can=new int[n];
+        for(int i=0;i<n;i++)
+            can[i]=0;
+        int spoil=0;
+        for(;;) {
+            System.out.println("ENTER THE CHOICE\n 1.TOVOTE\n2.TOCOUNT\n3.TOTERMINATE");
+            int ch= sc.nextInt();
+            switch (ch)
+            {
+                case 1:
+                    for(;;) {
+                        System.out.println("ENTER THE CHOICE TO VOTE");
+                        for (int i = 1; i <= n; i++)
+                            System.out.println(i +" FORCANDIDATE " + i);
+                        int v = sc.nextInt();
+                        for (int i = 0; i < n; i++) {
+                            if (v-1 == i) {
+                                can[i] = can[i] + 1;
+                                break;
+                            }
+                        }
+                        if (v < 1 || v > n)
+                            spoil = spoil + 1;
+                        System.out.println("ENTER 999 TO STOP VOTING");
+                        int s= sc.nextInt();
+                        if(s==999)
+                            break;
+                    }
+                    break;
 
-        Temperature [] T=new Temperature[5];
-        for(int i=0;i<5;i++)
-        {
-            T[i]=new Temperature();
-            T[i].read();
-            T[i].calculate();
-            maxt[i]=T[i].max;
-            mint[i]=T[i].min;
+                case 2:
+                    System.out.println("THE RESULT IS ");
+                    for(int i=0;i<n;i++)
+                        System.out.println("THE CANDIDATE "+(i+1)+" GOT "+can[i]+" VOTES");
 
+                    System.out.println("THE NUMBER OF SPOILT VOTES ARE "+spoil);
+                        break;
+                case 3:
+                    System.out.println("THE MACHINE IS OFF THANK YOU");
+                    System.exit(0);
+
+                    default:
+                    System.out.println("ENTER THE CORRECT CHOICE\n");
+                    break;
+            }
         }
-    int l=0,h=0;
-        for(int i=1;i<5;i++)
-        {
-          if(maxt[i]>maxt[h])
-            h=i;
-          if(mint[i]<mint[l])
-              l=i;
-        }
-
-        System.out.println("CITY\tHIGH\nLOW\n");
-        for(int i=0;i<5;i++)
-        {
-            System.out.println(T[i].city+"\t"+T[i].max+"\t"+T[i].min);
-        }
-
-        System.out.println("THE HIGH TEMPERATURE IS"+maxt[h]+"FORM THE CITY"+T[h].city+"\n" +
-                "THE LOWEST TEMPERATURE IS "+mint[l]+"FORM THE CITY "+T[l].city);
-
-
 
     }
 }
